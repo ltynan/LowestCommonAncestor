@@ -7,7 +7,7 @@ public class BinaryTreeTest {
 
 	@Test
 	public void testFindLCA() {
-		fail("Not yet implemented");
+		fail("Test to be completed");
 	}
 
 	@Test
