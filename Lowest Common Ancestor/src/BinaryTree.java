@@ -48,7 +48,7 @@ public class BinaryTree
 		return (left_lca != null) ? left_lca : right_lca;
 	}
 
-	public static void main(String args[])
+/*	public static void main(String args[])
 	{
 		BinaryTree tree = new BinaryTree();
 		tree.root = new Node(1);
@@ -66,5 +66,5 @@ public class BinaryTree
 							tree.findLCA(3, 4).data);
 		System.out.println("LCA(2, 4) = " +
 							tree.findLCA(2, 4).data);
-	}
+	}*/
 }
