@@ -6,7 +6,7 @@ import org.junit.Test;
 public class BinaryTreeTest {
 
 	@Test
-	public void testFindLCA() {
+	public void testLCARightSide() {
 		BinaryTree tree = new BinaryTree();
 
 		tree.root = new Node(12);							//	12
@@ -23,6 +23,8 @@ public class BinaryTreeTest {
 		assertEquals(answer, tree.findLCA(14, 18).data);
 
 	}
+	
+	
 	
 	@Test
 	public void testEmptyTree(){
