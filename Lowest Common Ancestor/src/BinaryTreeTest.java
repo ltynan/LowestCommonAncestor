@@ -9,20 +9,25 @@ public class BinaryTreeTest {
 	public void testFindLCA() {
 		BinaryTree tree = new BinaryTree();
 
-		tree.root = new Node(1);
-		tree.root.left = new Node(2);
-		tree.root.right = new Node(3);
-		tree.root.left.left = new Node(4);
-		tree.root.left.right = new Node(5);
-		tree.root.right.left = new Node(6);
-		tree.root.right.right = new Node(7);
+		tree.root = new Node(12);							//	12
+		tree.root.left = new Node(8);					// 8
+		tree.root.right = new Node(16);								//16
+		tree.root.left.left = new Node(6);			//6		
+		tree.root.left.right = new Node(10);				//10
+		tree.root.right.left = new Node(14);					//14	
+		tree.root.right.right = new Node(18);								//18
 		
-		System.out.println("LCA(4, 5) = " +
-							tree.findLCA(4, 5).data);
-		int answer = 2;										// initial test on the solution implemented
-		assertEquals(answer, tree.findLCA(4, 5).data);
+		System.out.println("LCA(14, 18) = " +
+							tree.findLCA(14, 18).data);
+		int answer = 16;										// initial test on the solution implemented
+		assertEquals(answer, tree.findLCA(14, 18).data);
 
-		//tree = new BinaryTree();
-		//assertNull();										// answer is null for an empty tree
+	}
+	
+	@Test
+	public void testEmptyTree(){
+		BinaryTree tree = null;
+		assertEquals(tree, null);
+		
 	}
 }
