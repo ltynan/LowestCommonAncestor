@@ -36,6 +36,7 @@ public class BinaryTreeTest {
 		tree.root.right.left = new Node(14);		//							  \
 		tree.root.right.right = new Node(18);		//							   27
 		tree.root.right.right.right = new Node(27); //		
+		
 		System.out.println("LCA(6, 8) = " +
 							tree.findLCA(6, 8).data);
 		int answer = 8;								
@@ -51,7 +52,23 @@ public class BinaryTreeTest {
 	}
 	
 	@Test
-	public void testNegativeNode(){
+	public void testEmptyNodes(){
+		BinaryTree tree = new BinaryTree();
+		tree.root = new Node(22);					//				 _ 22 _
+		tree.root.left = new Node(11);				// 			   / 	   \
+		tree.root.right = null;						//			  11	  null
+		tree.root.left.left = new Node(2);			//			/     \  		
+		tree.root.left.right = new Node(9);			//	   	   2 	   9 	
+		
+		assertNull(tree.root.right);
+													//				 _ 22 _
+		tree.root.left = null;						// 			   / 	   \
+		assertNull(tree.root.left);					//			 null	   null
+															   
+	}
+	
+	@Test
+	public void testLCAwithNegativeNode(){
 		BinaryTree tree = new BinaryTree();
 		tree.root = new Node(11);					//				 _ 11 _
 		tree.root.left = new Node(5);				// 			   / 	   \
@@ -61,6 +78,12 @@ public class BinaryTreeTest {
 		
 		int negativeNode = tree.root.left.left.data;
 		assertTrue(negativeNode < 0);
+		
+		System.out.println("LCA(14, -3) = " +
+				tree.findLCA(14, -3).data);
+		
+		int answer = 11;								
+		assertEquals(answer, tree.findLCA(14, -3).data);
 		
 	}
 }
