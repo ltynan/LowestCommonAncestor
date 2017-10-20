@@ -49,4 +49,18 @@ public class BinaryTreeTest {
 		assertEquals(tree, null);
 		
 	}
+	
+	@Test
+	public void testNegativeNode(){
+		BinaryTree tree = new BinaryTree();
+		tree.root = new Node(11);					//				 _ 11 _
+		tree.root.left = new Node(5);				// 			   / 	   \
+		tree.root.right = new Node(14);				//			_ 5 _	   14
+		tree.root.left.left = new Node(-3);			//		   /     \  		
+		tree.root.left.right = new Node(9);			//		  -3 	  9 	
+		
+		int negativeNode = tree.root.left.left.data;
+		assertTrue(negativeNode < 0);
+		
+	}
 }
