@@ -41,13 +41,6 @@ public class BinaryTreeTest {
 	}
 	
 	@Test
-	public void testEmptyTree(){
-		BinaryTree tree = null;
-		assertEquals(tree, null);
-		
-	}
-	
-	@Test
 	public void testEmptyNodes(){
 		BinaryTree tree = new BinaryTree();
 		tree.root = new Node(22);					//				 _ 22 _
