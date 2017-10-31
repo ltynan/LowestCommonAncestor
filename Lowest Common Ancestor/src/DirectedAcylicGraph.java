@@ -1,134 +1,81 @@
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Stack;
 
 public class DirectedAcylicGraph {
 
-	private class Node {
-		private int data;					// data stored in Node
-		private Node[] successors;			// array of nodes stored after
+	public class Node {
 
-		public Node(int key) {
-			this.data = key;
-		}
-	}
-
-	private Node[] nodes = new DirectedAcylicGraph.Node[0];					// Keeps track of the nodes in the list
-
-	// Is the DAG empty?
-	public boolean isEmpty() { 
-		if (size()!=0) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-
-	// Returns number of Nodes in graph.
-	public int size() { 
-		return nodes.length; 
-	}
-
-
-	//Checks whether Node n is in the graph.
-	public boolean contains(int key) {
-		boolean dataInList = false;
-		for (int i=0; i<nodes.length; i++) {
-			if (nodes[i].data == key) {
-				dataInList = true;
-				break;
-			}			
-		}
-		return dataInList;
-	}
-
-	// Adds a node to the graph. No precaution for cycles yet.
-	public void put(int v, int fromData, int toData) {	
-		Node n = new Node(v);
-		Node from = retrieveNodeFromData(fromData);
-		Node to = retrieveNodeFromData(toData);
-
-		if (fromData != 0) {					// may need to consider changing type to <Integer> 
-												//due to having to use 0 and not being able to use null
-			
-			from.successors = extendArrayByOne(from.successors);
-			from.successors[from.successors.length-1] = n;
-			// If 'from' Node is not already in the graph.
-			if (from.data == 0) {					
-				addNodeToNodes(from);
-			}
-		}
-
-		if (toData != 0) {
-			n.successors = extendArrayByOne(n.successors);
-			n.successors[n.successors.length-1] = to;
-			// If 'to' Node is not already in the graph.
-			if (to.data == 0) {
-				addNodeToNodes(to);
-			}
-		}
-		addNodeToNodes(n);		
-	}
-
-	public void addNodeToNodes (Node n) {
-		nodes = extendArrayByOne(nodes);
-		nodes[nodes.length-1] = n;
-	}
-
-	// Extends an array by one element.
-	public Node[] extendArrayByOne(Node[] originalArray) {
-		Node[] copyArray = new DirectedAcylicGraph.Node[originalArray.length+1];
-		System.arraycopy(originalArray, 0, copyArray, 0, originalArray.length);
-		return copyArray;
-	}
-
-	// Elements need to be deleted rather than turned to null.
-	public void deleteNode(Node n) {
-		int i;
-		for(i=0; i<n.successors.length; i++) {
-			n.successors[i] = null;
-		}
-
-		for(i=0; i<nodes.length; i++) {
-			if (Arrays.asList(nodes[i].successors).contains(n) == true) {
-				for (int j=0; j<nodes[i].successors.length; j++) {
-					if (nodes[i].successors[j] == n) {
-						nodes[i].successors[j] = null;
-					}
-				}
-			}
-		}
-
-		for (int k=0; k<nodes.length; k++) {
-			if (nodes[k] == n) {
-				nodes[k] = null;
-			}
-		}		
-	}
-
-	// Returns Node associated with int v.
-	public Node retrieveNodeFromData (int v){
-		Node returnNode = new Node(0); 				
-		for (int i=0; i<nodes.length; i++){
-			if (nodes[i].data == v){
-				returnNode = nodes[i];
-				break;			
-			}	
-		}
-		return returnNode;
+		int data;							// data stored in Node
+	    Node left, right;
+	    ArrayList<Node> DAGNodes;			// array of nodes stored after
+	    
+	    Node(int value) { 					// initialise new node with passed in int value
+	        data = value;
+	        left = right = null;
+	        DAGNodes = new ArrayList<Node>();			// Keeps track of the nodes in the list
+	    }
 	}
 	
+	private Node root;
 	
-	Node root;
-	Node findLCA(int n1, int n2)
-	{
-		return findLCA(root, n1, n2);
+	//Getter Function
+    public Node getRoot() {
+		return root;
 	}
 
-	Node findLCA(Node node, int n1, int n2)
-	{
-		if (node == null)
+	//Setter Function
+	public void setRoot(Node root) {
+		this.root = root;
+	}
+	
+	private ArrayList<Node> DepthFirstSearch(Node node, Node target, 
+											ArrayList<Node> list, Stack<Node> stack) {
+        stack.push(node);
+        for (Node theNode : node.DAGNodes) {
+            if (theNode.equals(target)) {
+                list.addAll(stack);
+                return list;
+            }
+            DepthFirstSearch(theNode, target, list, stack);
+        }
+        stack.pop();
+        return list;
+    }
+
+	
+	public Node lowestCommonAncestor(Node n1, Node n2) {
+		return lowestCommonAncestor(getRoot(), n1, n2);
+	}
+
+	private Node lowestCommonAncestor(Node node, Node n1, Node n2) {
+		if (node == null || n1 == null || n2 == null) {		// null DAG returns a null answer for DAG
 			return null;
-		else	
-			return node;
-	}
+		}
+		ArrayList<Node> list1 = DepthFirstSearch(node, n1, new ArrayList<>(), new Stack<>());
+		ArrayList<Node> list2 = DepthFirstSearch(node, n2, new ArrayList<>(), new Stack<>());
+		
+		if (list1 == null || list2 == null) {		// return null for empty 
+			return null;
+		}
+		
+		ArrayList<Node> min;
+		ArrayList<Node> max;
+		if (list1.size() <= list2.size()) {
+			min = list1;
+			max = list2;
+		} else {
+			min = list2;
+			max = list1;
+		}
+		ArrayList<Node> set = new ArrayList<>();
+		for (Node n : min) {
+			set.add(n);
+		}
+		for (int i = max.size() - 1; i >= 0; i--) {
+			if (set.contains(max.get(i))) {
+				return max.get(i);
+			}
+		}
+		return null;
+	}	
 }
