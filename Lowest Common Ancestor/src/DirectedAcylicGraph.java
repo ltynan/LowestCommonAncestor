@@ -3,8 +3,8 @@ import java.util.Arrays;
 public class DirectedAcylicGraph {
 
 	private class Node {
-		private int data;					// dataue stored in Node
-		private Node[] successors;			// dataues stored in the nodes after
+		private int data;					// data stored in Node
+		private Node[] successors;			// array of nodes stored after
 
 		public Node(int key) {
 			this.data = key;
@@ -115,5 +115,20 @@ public class DirectedAcylicGraph {
 			}	
 		}
 		return returnNode;
+	}
+	
+	
+	Node root;
+	Node findLCA(int n1, int n2)
+	{
+		return findLCA(root, n1, n2);
+	}
+
+	Node findLCA(Node node, int n1, int n2)
+	{
+		if (node == null)
+			return null;
+		else	
+			return node;
 	}
 }
