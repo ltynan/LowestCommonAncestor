@@ -9,16 +9,6 @@ public class DAGTest {
 	DirectedAcylicGraph<Node> DAG = new DirectedAcylicGraph<Node>();
 	ArrayList<Node> nodes;
 
-	/*@Test
-	public void testGetRoot() {
-		fail("Not yet implemented");
-	}*/
-
-	/*@Test
-	public void testSetRoot() {
-		fail("Not yet implemented");
-	}*/
-
 	@Test
 	public void testLowestCommonAncestor() {
 		nodes = new ArrayList<>();
@@ -62,6 +52,8 @@ public class DAGTest {
 		assertEquals(nodes.get(0).data, DAG.lowestCommonAncestor(nodes.get(1), nodes.get(2)).data);
 		assertEquals(nodes.get(3).data, DAG.lowestCommonAncestor(nodes.get(8), nodes.get(6)).data);
 		assertEquals(nodes.get(3).data, DAG.lowestCommonAncestor(nodes.get(8), nodes.get(5)).data);
+		
+
 	}
 	
 	@Test
@@ -74,5 +66,26 @@ public class DAGTest {
 		DAG.setRoot(nodes.get(0));	
 
 		assertEquals(null, DAG.lowestCommonAncestor(nodes.get(1), nodes.get(2)));
+		
+		DirectedAcylicGraph<Node> DAG2 = new DirectedAcylicGraph<Node>();
+		ArrayList<Node> nodes2 = new ArrayList<>();
+		nodes2.add(new Node(4));
+		assertEquals(null, DAG2.lowestCommonAncestor(nodes2.get(0), nodes.get(0)));
+		
+		assertNull(DAG.lowestCommonAncestor(null, null));
 	}
+	
+    @Test
+    public void testData(){
+        nodes = new ArrayList<>();
+        nodes.add(new Node(1));
+        nodes.add(new Node(2));
+        nodes.add(new Node(3));
+        DAG.setRoot(nodes.get(1));
+        
+        nodes.get(1).addEdge(nodes.get(2));
+        nodes.get(1).addEdge(nodes.get(0));
+        
+        assertEquals("lca(a1,a3) = a2", nodes.get(1).data, DAG.lowestCommonAncestor(nodes.get(0), nodes.get(2)).data);
+    }
 }

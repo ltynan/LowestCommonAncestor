@@ -60,7 +60,7 @@ public class DirectedAcylicGraph<T> {
 		ArrayList<Node> list1 = DepthFirstSearch(node, n1, new ArrayList<>(), new Stack<>());
 		ArrayList<Node> list2 = DepthFirstSearch(node, n2, new ArrayList<>(), new Stack<>());
 
-		if (list1 == null || list2 == null) {		// return null for empty 
+		if (list1 == null || list2 == null) {				// return null for empty sets
 			return null;
 		}
 
