@@ -1,30 +1,30 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
+class Node {
+
+	Integer data;						// data stored in Node
+	Node left, right;
+	ArrayList<Node> DAGNodes;			// array of nodes stored after
+
+	Node(Integer value) { 					// initialise new node with passed in int value
+		data = value;
+		left = null;
+		right = null;
+		DAGNodes = new ArrayList<Node>();			// Keeps track of the nodes in the list
+	}
+
+	public void addEdge(Node e) {
+		DAGNodes.add(e);
+	}
+}
+
 public class DirectedAcylicGraph<T> {
 
-	public class Node {
-
-		int data;							// data stored in Node
-	    Node left, right;
-	    ArrayList<Node> DAGNodes;			// array of nodes stored after
-	    
-	    Node(int value) { 					// initialise new node with passed in int value
-	        data = value;
-	        left = null;
-	        right = null;
-	        DAGNodes = new ArrayList<Node>();			// Keeps track of the nodes in the list
-	    }
-	    
-	    public void addEdge(Node e) {
-	        DAGNodes.add(e);
-	    }
-	}
-	
 	Node root;
-	
+
 	//Getter Function
-    public Node getRoot() {
+	public Node getRoot() {
 		return root;
 	}
 
@@ -32,37 +32,38 @@ public class DirectedAcylicGraph<T> {
 	public void setRoot(Node root) {
 		this.root = root;
 	}
-	
-	private ArrayList<Node> DepthFirstSearch(Node node, Node target, 
-											ArrayList<Node> list, Stack<Node> stack) {
-        stack.push(node);
-        for (Node theNode : node.DAGNodes) {
-            if (theNode.equals(target)) {
-                list.addAll(stack);
-                return list;
-            }
-            DepthFirstSearch(theNode, target, list, stack);
-        }
-        stack.pop();
-        return list;
-    }
 
-	
+	private ArrayList<Node> DepthFirstSearch(Node node, Node target, 
+			ArrayList<Node> list, Stack<Node> stack) {
+		stack.push(node);
+		for (Node theNode : node.DAGNodes) {
+			if (theNode.equals(target)) {
+				list.addAll(stack);
+				return list;
+			}
+			DepthFirstSearch(theNode, target, list, stack);
+		}
+		stack.pop();
+		return list;
+	}
+
+
 	public Node lowestCommonAncestor(Node n1, Node n2) {
 		return lowestCommonAncestor(getRoot(), n1, n2);
 	}
 
 	private Node lowestCommonAncestor(Node node, Node n1, Node n2) {
+				
 		if (node == null || n1 == null || n2 == null) {		// null DAG returns a null answer for DAG
 			return null;
 		}
 		ArrayList<Node> list1 = DepthFirstSearch(node, n1, new ArrayList<>(), new Stack<>());
 		ArrayList<Node> list2 = DepthFirstSearch(node, n2, new ArrayList<>(), new Stack<>());
-		
+
 		if (list1 == null || list2 == null) {		// return null for empty 
 			return null;
 		}
-		
+
 		ArrayList<Node> min;
 		ArrayList<Node> max;
 		if (list1.size() <= list2.size()) {
