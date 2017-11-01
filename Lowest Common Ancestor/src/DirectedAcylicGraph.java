@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class DirectedAcylicGraph {
+public class DirectedAcylicGraph<T> {
 
 	public class Node {
 
@@ -11,12 +11,17 @@ public class DirectedAcylicGraph {
 	    
 	    Node(int value) { 					// initialise new node with passed in int value
 	        data = value;
-	        left = right = null;
+	        left = null;
+	        right = null;
 	        DAGNodes = new ArrayList<Node>();			// Keeps track of the nodes in the list
+	    }
+	    
+	    public void addEdge(Node e) {
+	        DAGNodes.add(e);
 	    }
 	}
 	
-	private Node root;
+	Node root;
 	
 	//Getter Function
     public Node getRoot() {
